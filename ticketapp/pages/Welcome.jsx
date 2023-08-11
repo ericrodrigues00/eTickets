@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 
 const Container = styled.View`
+    padding:0;
 
   background-color: #ffffff;
   justify-content: center;
@@ -56,7 +57,7 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 
-const LoginScreen = ({ navigation }) => {
+const WelcomeScreen = ({ navigation }) => {
     return (
       <Container>
         <ImageSection>
@@ -79,4 +80,4 @@ const LoginScreen = ({ navigation }) => {
   };
   
 
-export default LoginScreen
+export default WelcomeScreen

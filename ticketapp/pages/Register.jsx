@@ -67,7 +67,8 @@ const ErrorMessage = styled.Text`
 `;
 
 const RegisterButton = styled.TouchableOpacity`
-  background-color: #007bff;
+  background-color: #605EB5
+;
   padding: 15px 40px;
   border-radius: 8px;
   margin-top: 20px;
