@@ -9,7 +9,7 @@ import LoginScreen from './pages/SignIn';
 export default function App() {
   return (
     <>
-       <LoginScreen></LoginScreen>
+       <RegisterScreen></RegisterScreen>
      
      
     </>

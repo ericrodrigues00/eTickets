@@ -1,4 +1,5 @@
-
+import axios from 'axios';
+import User from '../models/User';
 import React, { useState } from 'react';
 import {
   View,
@@ -88,6 +89,8 @@ const LoginLink = styled.Text`
   margin-top: 20px;
 `;
 
+const bcrypt = require('bcrypt');
+
 const isEmailValid = (email) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   return emailRegex.test(email);
@@ -147,20 +150,20 @@ const isCPFValid = (cpf) => {
 
 const RegisterScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
-    nome: '',
+    name: '',
     email: '',
     cpf: '',
-    senha: '',
-    confirmarSenha: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [emailError, setEmailError] = useState(false);
   const [cpfError, setCPFError] = useState(false);
 
-  const handleRegister = () => {
-    const { nome, email, cpf, senha, confirmarSenha } = formData;
+  const handleRegister = async () => {
+    const { name, email, cpf, password, confirmPassword } = formData;
 
-    if (!nome || !email || !cpf || !senha || !confirmarSenha) {
+    if (!name || !email || !cpf || !password || !confirmPassword) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
     }
@@ -179,13 +182,32 @@ const RegisterScreen = ({ navigation }) => {
       setCPFError(false);
     }
 
-    if (senha !== confirmarSenha) {
+    if (password !== confirmPassword) {
       Alert.alert('Erro', 'As senhas não coincidem.');
       return;
     }
 
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10)
     // Realize aqui a lógica de registro se todas as validações passarem
-    alert('Cadastro concluído!');
+      const registerData = {
+        name: formData.name,
+        email: formData.email,
+        cpf: formData.cpf,
+        password: hashedPassword,
+        confirmPassword: formData.confirmPassword,
+      }
+
+    axios.post('http://192.168.0.4:3000/users', registerData)
+      .then(response => {
+        alert('Cadastro concluído!');
+      })
+      .catch(error => {
+        console.error('Erro ao cadastrar', error);
+      })
+    } catch (error) {
+      console.error('Erro ao encriptar a senha', error);
+    }
   };
 
   const handleCPFChange = (text) => {
@@ -216,8 +238,8 @@ const RegisterScreen = ({ navigation }) => {
               <InputTitle>Nome</InputTitle>
               <Input
                 placeholder="Nome"
-                onChangeText={(text) => setFormData({ ...formData, nome: text })}
-                value={formData.nome}
+                onChangeText={(text) => setFormData({ ...formData, name: text })}
+                value={formData.name}
               />
             </InputContainer>
             <InputContainer>
@@ -249,8 +271,8 @@ const RegisterScreen = ({ navigation }) => {
               <Input
                 placeholder="Senha"
                 secureTextEntry={true}
-                onChangeText={(text) => setFormData({ ...formData, senha: text })}
-                value={formData.senha}
+                onChangeText={(text) => setFormData({ ...formData, password: text })}
+                value={formData.password}
               />
             </InputContainer>
             <InputContainer>
@@ -258,8 +280,8 @@ const RegisterScreen = ({ navigation }) => {
               <Input
                 placeholder="Confirmar Senha"
                 secureTextEntry={true}
-                onChangeText={(text) => setFormData({ ...formData, confirmarSenha: text })}
-                value={formData.confirmarSenha}
+                onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
+                value={formData.confirmPassword}
               />
             </InputContainer>
             <RegisterButton onPress={handleRegister}>
