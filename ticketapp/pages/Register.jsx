@@ -13,6 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
+import LoginScreen from './SignIn';
 
 const Container = styled.View`
   height: 100vh;
@@ -89,7 +90,6 @@ const LoginLink = styled.Text`
   margin-top: 20px;
 `;
 
-const bcrypt = require('bcrypt');
 
 const isEmailValid = (email) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -198,7 +198,7 @@ const RegisterScreen = ({ navigation }) => {
         confirmPassword: formData.confirmPassword,
       }
 
-    axios.post('http://192.168.0.4:3000/users', registerData)
+    axios.post('http://0.0.0.0:3000/users', registerData)
       .then(response => {
         alert('Cadastro concluído!');
       })

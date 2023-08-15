@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   View,
   Text,
@@ -11,6 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
+import Register from './Register'
 
 // Estilos dos componentes
 const Container = styled.View`
@@ -135,7 +138,6 @@ const LoginScreen = ({ navigation }) => {
     }
 
     // Realize aqui a lógica de login se todas as validações passarem
-    alert('Login realizado!');
   };
 
   return (

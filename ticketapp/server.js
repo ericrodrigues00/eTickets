@@ -4,7 +4,7 @@ const db = require('./database/db'); // Importa o arquivo de conexão com o Mong
 const routes = require('./routes/routes');
 
 const app = express();
-const port = 2000;
+const port = 3000;
 
 app.use(bodyParser.json());
 

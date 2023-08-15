@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Importe o modelo que você criou
+const User = require('../models/User'); // Importe o modelo de Usuário
+const Ticket = require('../models/Ticket'); // Importe o modelo de Ticket
 
-// Rota para criar um novo item
+// Rota para criar um novo usuário
 router.post('/users', async (req, res) => {
   try {
     const newUser = new User(req.body);
@@ -13,6 +14,16 @@ router.post('/users', async (req, res) => {
   }
 });
 
+// Rota para criar um novo ticket
+router.post('/tickets', async (req, res) => {
+  try {
+    const newTicket = new Ticket(req.body);
+    await newTicket.save();
+    res.status(201).json(newTicket);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // Outras rotas podem ser definidas aqui
-console.log(User);
 module.exports = router;

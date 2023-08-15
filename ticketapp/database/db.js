@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/tex', {
+mongoose.connect('mongodb+srv://admin:adminadmin@cluster0.lcxcczi.mongodb.net/tex', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
