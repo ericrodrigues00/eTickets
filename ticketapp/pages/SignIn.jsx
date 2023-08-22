@@ -113,6 +113,32 @@ const isEmailValid = (email) => {
   return emailRegex.test(email);
 };
 
+
+
+
+
+
+//add marco para testar o login
+function ButtonComponent() {
+  const handleClick = async () => {
+    try {
+      const response = await fetch('/login', {
+        method: 'POST', // ou 'GET', 'PUT', 'DELETE', etc.
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Pode enviar dados no corpo da requisição se necessário
+        body: JSON.stringify({ someValue: 'data' }),
+      });
+
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error('Erro:', error);
+    }
+  }
+  };
+
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
     email: '',
@@ -179,7 +205,7 @@ const LoginScreen = ({ navigation }) => {
           </MidSec>
           <BotSec>
             <RegisterButton onPress={handleLogin}>
-              <ButtonText>LOGIN</ButtonText>
+              <ButtonText >LOGIN</ButtonText>
             </RegisterButton>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <LoginLink>Não possui conta? Clique aqui para se cadastrar.</LoginLink>
