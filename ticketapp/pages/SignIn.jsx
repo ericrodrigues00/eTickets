@@ -119,25 +119,45 @@ const isEmailValid = (email) => {
 
 
 //add marco para testar o login
-function ButtonComponent() {
-  const handleClick = async () => {
-    try {
-      const response = await fetch('/login', {
-        method: 'POST', // ou 'GET', 'PUT', 'DELETE', etc.
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Pode enviar dados no corpo da requisição se necessário
-        body: JSON.stringify({ someValue: 'data' }),
-      });
+async function handleLogin() {
+  const { email, senha } = formData;
 
-      const data = await response.json();
-      console.log(data.message);
-    } catch (error) {
-      console.error('Erro:', error);
-    }
+  if (!email || !senha) {
+    Alert.alert('Erro', 'Preencha todos os campos.');
+    return;
   }
-  };
+
+  if (!isEmailValid(email)) {
+    setEmailError(true);
+    return;
+  } else {
+    setEmailError(false);
+  }
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, senha }), // Enviar os dados do formulário
+    });
+
+    const data = await response.json();
+    if (data.message === "Login bem-sucedido") {
+      // Lógica para lidar com o login bem-sucedido
+    } else {
+      // Lógica para lidar com credenciais inválidas
+    }
+  } catch (error) {
+    // Lógica para lidar com erros de rede ou outras exceções
+    console.error('Erro:', error);
+    setEmail('');
+    setSenha('');
+  }
+}
+
+
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -147,21 +167,6 @@ const LoginScreen = ({ navigation }) => {
 
   const [emailError, setEmailError] = useState(false);
 
-  // Função para lidar com o login
-  const handleLogin = () => {
-    const { email, senha } = formData;
-
-    if (!email || !senha) {
-      Alert.alert('Erro', 'Preencha todos os campos.');
-      return;
-    }
-
-    if (!isEmailValid(email)) {
-      setEmailError(true);
-      return;
-    } else {
-      setEmailError(false);
-    }
 
     // Realize aqui a lógica de login se todas as validações passarem
   };
@@ -215,6 +220,5 @@ const LoginScreen = ({ navigation }) => {
       </Container>
     </ScrollView>
   );
-};
 
 export default LoginScreen;
