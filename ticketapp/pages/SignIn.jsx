@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
-import Register from './Register'
+import Register from './UserRegister'
 
 // Estilos dos componentes
 const Container = styled.View`

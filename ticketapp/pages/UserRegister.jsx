@@ -148,7 +148,7 @@ const isCPFValid = (cpf) => {
   return true;
 };
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -188,23 +188,21 @@ const RegisterScreen = ({ navigation }) => {
     }
 
     try {
-      const hashedPassword = await bcrypt.hash(password, 10)
-    // Realize aqui a lógica de registro se todas as validações passarem
+      const hashedPassword = await bcrypt.hash(password, 10); // Certifique-se de importar o 'bcrypt' aqui
       const registerData = {
         name: formData.name,
         email: formData.email,
         cpf: formData.cpf,
         password: hashedPassword,
-        confirmPassword: formData.confirmPassword,
-      }
+      };
 
-    axios.post('http://0.0.0.0:3000/users', registerData)
-      .then(response => {
-        alert('Cadastro concluído!');
-      })
-      .catch(error => {
-        console.error('Erro ao cadastrar', error);
-      })
+      axios.post('http://localhost:4567/users', registerData) // Substitua pela URL correta
+        .then(response => {
+          alert('Cadastro concluído!');
+        })
+        .catch(error => {
+          console.error('Erro ao cadastrar', error);
+        });
     } catch (error) {
       console.error('Erro ao encriptar a senha', error);
     }

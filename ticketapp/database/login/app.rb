@@ -11,7 +11,7 @@ before do
   response.headers['Access-Control-Allow-Origin'] = '*'
 end
 
-# Rota para receber os dados do formulário de login em JSON
+# Rota para receber os dados do formulário de login em JSON"
 post '/login' do
   request.body.rewind #Isso garante que o corpo da requisição esteja pronto para ser lido.
   data = JSON.parse(request.body.read) # Isso lê o corpo da requisição (que é em formato JSON) e o converte em um objeto Ruby.
