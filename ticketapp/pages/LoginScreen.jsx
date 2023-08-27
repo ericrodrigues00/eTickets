@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
-import Register from './UserRegister'
+import Register from './RegisterScreen'
 
 // Estilos dos componentes
 const Container = styled.View`
@@ -169,7 +169,7 @@ const LoginScreen = ({ navigation }) => {
 
 
     // Realize aqui a lógica de login se todas as validações passarem
-  };
+  
 
   return (
     <ScrollView
@@ -220,5 +220,5 @@ const LoginScreen = ({ navigation }) => {
       </Container>
     </ScrollView>
   );
-
+              }
 export default LoginScreen;

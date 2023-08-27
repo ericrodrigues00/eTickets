@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
-import LoginScreen from './SignIn';
+import LoginScreen from './LoginScreen';
 
 const Container = styled.View`
   height: 100vh;

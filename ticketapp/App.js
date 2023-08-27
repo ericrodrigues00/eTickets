@@ -13,7 +13,7 @@ import TicketRegisterScreen from './pages/TicketRegisterScreen';
 export default function App() {
   return (
     <>
-       <NavigationContainer></NavigationContainer>
+       <RegisterScreen></RegisterScreen>
     </>
      
    
