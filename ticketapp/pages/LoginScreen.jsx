@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import {
   View,
   Text,
@@ -13,7 +12,8 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
-import Register from './RegisterScreen'
+import RegisterScreen from './RegisterScreen'
+import WelcomeScreen from './WelcomeScreen';
 
 // Estilos dos componentes
 const Container = styled.View`
@@ -113,58 +113,53 @@ const isEmailValid = (email) => {
   return emailRegex.test(email);
 };
 
-
-
-
-
-
 //add marco para testar o login
-async function handleLogin() {
-  const { email, senha } = formData;
 
-  if (!email || !senha) {
-    Alert.alert('Erro', 'Preencha todos os campos.');
-    return;
-  }
-
-  if (!isEmailValid(email)) {
-    setEmailError(true);
-    return;
-  } else {
-    setEmailError(false);
-  }
-
-  try {
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, senha }), // Enviar os dados do formulário
-    });
-
-    const data = await response.json();
-    if (data.message === "Login bem-sucedido") {
-      // Lógica para lidar com o login bem-sucedido
-    } else {
-      // Lógica para lidar com credenciais inválidas
-    }
-  } catch (error) {
-    // Lógica para lidar com erros de rede ou outras exceções
-    console.error('Erro:', error);
-    setEmail('');
-    setSenha('');
-  }
-}
-
-
-
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     email: '',
-    senha: '',
+    password: '',
   });
 
+  async function handleLogin() {
+    const { email, password } = formData;
+  
+    if (!email || !password) {
+      Alert.alert('Erro', 'Preencha todos os campos.');
+      return;
+    }
+  
+    /*if (!isEmailValid(email)) {
+      setEmailError(true);
+      return;
+    } else {
+      setEmailError(false);
+    }*/
+  
+    try {
+      const response = await fetch('http://192.168.0.103:4567/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }), // Enviar os dados do formulário
+      });
+  
+      const data = await response.json();
+      if (data.message === "Login bem-sucedido") {
+        navigation.navigate('WelcomeScreen');
+      } else {
+        Alert.alert('Erro', 'Credenciais inválidas. Verifique seu email e senha.');
+      }
+    } catch (error) {
+      // Lógica para lidar com erros de rede ou outras exceções
+      console.error('Erro: ', error);
+      //setEmail('');
+      //setPassword('');
+    }
+  }
+  
   const [emailError, setEmailError] = useState(false);
 
 
@@ -203,8 +198,8 @@ const LoginScreen = ({ navigation }) => {
               <Input
                 placeholder="Senha"
                 secureTextEntry={true}
-                onChangeText={(text) => setFormData({ ...formData, senha: text })}
-                value={formData.senha}
+                onChangeText={(text) => setFormData({ ...formData, password: text })}
+                value={formData.password}
               />
             </InputContainer>
           </MidSec>
@@ -212,7 +207,7 @@ const LoginScreen = ({ navigation }) => {
             <RegisterButton onPress={handleLogin}>
               <ButtonText >LOGIN</ButtonText>
             </RegisterButton>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
               <LoginLink>Não possui conta? Clique aqui para se cadastrar.</LoginLink>
             </TouchableOpacity>
           </BotSec>

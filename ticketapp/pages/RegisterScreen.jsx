@@ -1,6 +1,7 @@
 import axios from 'axios';
 import User from '../models/User';
 import React, { useState } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -149,6 +150,7 @@ const isCPFValid = (cpf) => {
 };
 
 const RegisterScreen = () => {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -190,10 +192,10 @@ const RegisterScreen = () => {
     try {
       const hashedPassword = await bcrypt.hash(password, 10); // Certifique-se de importar o 'bcrypt' aqui
       const registerData = {
-        name: formData.name,
+        nome: formData.name,
         email: formData.email,
         cpf: formData.cpf,
-        password: hashedPassword,
+        password: formData.password,
       };
 
       axios.post('http://localhost:4567/users', registerData) // Substitua pela URL correta
@@ -285,7 +287,7 @@ const RegisterScreen = () => {
             <RegisterButton onPress={handleRegister}>
               <ButtonText>REGISTER</ButtonText>
             </RegisterButton>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
               <LoginLink>Já é usuário? Clique aqui.</LoginLink>
             </TouchableOpacity>
           </InfoSection>

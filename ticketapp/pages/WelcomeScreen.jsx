@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
-
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import LoginScreen from './LoginScreen';
 
 const Container = styled.View`
     padding:0;
@@ -57,7 +58,8 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = () => {
+  const navigation = useNavigation();
     return (
       <Container>
         <ImageSection>

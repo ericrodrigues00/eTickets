@@ -3,22 +3,28 @@ require 'mongo'
 require 'json'
 
 # Configurar a conexão com o servidor MongoDB
-client = Mongo::Client.new('mongodb+srv://admin:adminadmin@cluster0.lcxcczi.mongodb.net/tex') # Substitua 'mydb' pelo nome do seu banco de dados
-users_collection = client[:users] # Substitua 'users' pelo nome da sua coleção de usuários
+client = Mongo::Client.new('mongodb+srv://admin:adminadmin@cluster0.lcxcczi.mongodb.net/tex')
+users_collection = client[:users]
 
 # Configurar o CORS para permitir requisições da sua página em JavaScript (opcional)
 before do
-  response.headers['Access-Control-Allow-Origin'] = '*'
+  response.headers['Access-Control-Allow-Origin'] = '*' # Permitir acesso de todos os domínios (cuidado com segurança)
+  response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+  response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
 end
 
-# Rota para receber os dados do formulário de login em JSON"
-post '/login' do
-  request.body.rewind #Isso garante que o corpo da requisição esteja pronto para ser lido.
-  data = JSON.parse(request.body.read) # Isso lê o corpo da requisição (que é em formato JSON) e o converte em um objeto Ruby.
-  username = data['username'] # Aqui, estamos extraindo o nome de usuário do objeto JSON enviado na requisição.
-  password = data['password'] # Aqui, estamos extraindo a senha de usuário do objeto JSON enviado na requisição.
+# Configurar o servidor Sinatra para ouvir em todos os endereços IP (cuidado com segurança)
+set :bind, '0.0.0.0'
+set :port, 4567
 
-  user = users_collection.find(username: username, password: password).first #Isso busca um usuário na coleção de usuários com as credenciais fornecidas.
+# Rota para receber os dados do formulário de login em JSON
+post '/login' do
+  request.body.rewind
+  data = JSON.parse(request.body.read)
+  email = data['email']
+  password = data['password']
+
+  user = users_collection.find(email: email, password: password).first
 
   if user
     status 200

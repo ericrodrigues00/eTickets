@@ -29,7 +29,7 @@ post '/users' do
     name: name,
     email: email,
     cpf: cpf,
-    #password: hashed_password
+    password: password
   }
 
   result = users_collection.insert_one(doc_to_insert)

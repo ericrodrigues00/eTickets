@@ -3,21 +3,27 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createNavigateStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 
 import RegisterScreen from './pages/RegisterScreen';
 import WelcomeScreen from './pages/WelcomeScreen';
 import LoginScreen from './pages/LoginScreen';
 import TicketRegisterScreen from './pages/TicketRegisterScreen';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+export default App = () => {
   return (
-    <>
-       <RegisterScreen></RegisterScreen>
-    </>
-     
-   
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen name="TicketRegister" component={TicketRegisterScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
 
 
