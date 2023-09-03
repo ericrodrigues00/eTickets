@@ -90,7 +90,7 @@ const LoginLink = styled.Text`
 `;
 
 
-const TicketRegisterScreen = ({ navigation }) => {
+const AnnouncementRegisterScreen = ({ navigation }) => {
   const [ticketData, setTicketData] = useState({
     title: '',
     description: '',
@@ -114,7 +114,7 @@ const TicketRegisterScreen = ({ navigation }) => {
       status: ticketData.status,
       price: ticketData.price,
     };
-    axios.post('http://0.0.0.0:3000/tickets', newTicket)
+    axios.post('/register/announcements', newTicket)
       .then(response => {
         alert('Cadastro concluído!');
       })
@@ -179,4 +179,4 @@ const TicketRegisterScreen = ({ navigation }) => {
   );
 };
 
-export default TicketRegisterScreen;
+export default AnnouncementRegisterScreen;

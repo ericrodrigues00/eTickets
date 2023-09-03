@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import User from '../models/User';
 import React, { useState } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import LoginScreen from './LoginScreen';
+import axios from 'axios';
+
 
 const Container = styled.View`
   height: 100vh;
@@ -149,7 +151,7 @@ const isCPFValid = (cpf) => {
   return true;
 };
 
-const RegisterScreen = () => {
+const UserRegisterScreen = () => {
   const navigation = useNavigation();
   const [formData, setFormData] = useState({
     name: '',
@@ -198,7 +200,7 @@ const RegisterScreen = () => {
         password: formData.password,
       };
 
-      axios.post('http://localhost:4567/users', registerData) // Substitua pela URL correta
+      axios.post('http://192.168.0.103:4567/users', registerData) // Substitua pela URL correta
         .then(response => {
           alert('Cadastro concluído!');
         })
@@ -297,4 +299,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default UserRegisterScreen;

@@ -10,7 +10,19 @@ users_collection = client[:users]
 # Configurar o CORS para permitir requisições da sua aplicação React Native
 before do
   response.headers['Access-Control-Allow-Origin'] = '*' # Substitua pelo domínio correto da sua aplicação
+  response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+  response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
 end
+
+set :bind, '0.0.0.0'
+set :port, 4567
+
+get '/users' do
+  content_type :json
+  users = users_collection.find.to_a
+  users.to_json
+end
+
 
 # Rota para receber os dados do formulário de registro em JSON
 post '/users' do

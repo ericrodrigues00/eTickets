@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import LoginScreen from './LoginScreen';
+
 
 const Container = styled.View`
     padding:0;
@@ -58,7 +59,7 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 
-const WelcomeScreen = () => {
+const GetStartedScreen = ({route}) => {
   const navigation = useNavigation();
     return (
       <Container>
@@ -72,7 +73,10 @@ const WelcomeScreen = () => {
           <Subtitle>
             Compre seus ingressos de forma facilitada e integrada, podendo escolher o vendedor!
           </Subtitle>
-            <EnterButton onPress={() => navigation.navigate('Register')}>
+          <Subtitle>
+            Bem vindo, {route.params.userData.name}!
+          </Subtitle>
+            <EnterButton onPress={() => navigation.navigate('UserRegisterScreen')}>
           <ButtonText>GET STARTED</ButtonText>
         </EnterButton>
         </InfoSection>
@@ -82,4 +86,4 @@ const WelcomeScreen = () => {
   };
   
 
-export default WelcomeScreen
+export default GetStartedScreen

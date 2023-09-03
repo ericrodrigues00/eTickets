@@ -12,8 +12,8 @@ import {
   Platform,
 } from 'react-native';
 import styled from 'styled-components/native';
-import RegisterScreen from './RegisterScreen'
-import WelcomeScreen from './WelcomeScreen';
+import UserRegisterScreen from './UserRegisterScreen'
+import GetStartedScreen from './GetStartedScreen';
 
 // Estilos dos componentes
 const Container = styled.View`
@@ -122,9 +122,11 @@ const LoginScreen = () => {
     password: '',
   });
 
+  const [userData, setUserData] = useState(null);
+
   async function handleLogin() {
     const { email, password } = formData;
-  
+    
     if (!email || !password) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
@@ -147,16 +149,20 @@ const LoginScreen = () => {
       });
   
       const data = await response.json();
-      if (data.message === "Login bem-sucedido") {
-        navigation.navigate('WelcomeScreen');
+        if (data.message === "Login bem-sucedido") {
+        const userResponse = await fetch('http://192.168.0.103:4567/getUserData', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+        const userData = await userResponse.json(); // Aqui você obtém os dados do usuário
+        navigation.navigate('UserProfileScreen', { userData }); // Passa os dados do usuário para a tela de boas-vindas
       } else {
-        Alert.alert('Erro', 'Credenciais inválidas. Verifique seu email e senha.');
+          Alert.alert('Erro', 'Credenciais inválidas. Verifique seu email e senha.');
       }
-    } catch (error) {
-      // Lógica para lidar com erros de rede ou outras exceções
-      console.error('Erro: ', error);
-      //setEmail('');
-      //setPassword('');
+        } catch (error) {
+          console.error('Erro: ', error);
     }
   }
   
@@ -207,7 +213,7 @@ const LoginScreen = () => {
             <RegisterButton onPress={handleLogin}>
               <ButtonText >LOGIN</ButtonText>
             </RegisterButton>
-            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+            <TouchableOpacity onPress={() => navigation.navigate('UserRegisterScreen')}>
               <LoginLink>Não possui conta? Clique aqui para se cadastrar.</LoginLink>
             </TouchableOpacity>
           </BotSec>
