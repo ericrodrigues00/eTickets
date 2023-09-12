@@ -1,6 +1,7 @@
 import axios from 'axios';
 import User from '../models/Ticket';
 import React, { useState } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -90,31 +91,32 @@ const LoginLink = styled.Text`
 `;
 
 
-const AnnouncementRegisterScreen = ({ navigation }) => {
-  const [ticketData, setTicketData] = useState({
+const AnnouncementRegisterScreen = () => {
+  const navigation = useNavigation();
+  const [announcementData, setAnnouncementData] = useState({
     title: '',
-    description: '',
-    status: '',
     price: '',
+    type: '',
+    quantity: '',
   });
 
   const handleRegister = async () => {
-    const { title, description, status, price } = ticketData;
+    const { title, price, type, quantity } = announcementData;
 
-    if (!title || !description || !status || !price) {
+    if (!title || !price || !type || !quantity) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
     }
 
     try {
     // Realize aqui a lógica de registro se todas as validações passarem
-    const newTicket = {
-      title: ticketData.title,
-      description: ticketData.description,
-      status: ticketData.status,
-      price: ticketData.price,
+    const newAnnouncement = {
+      title: announcementData.title,
+      price: announcementData.price,
+      type: announcementData.type,
+      quantity: announcementData.quantity,
     };
-    axios.post('/register/announcements', newTicket)
+    axios.post('http://192.168.0.103:4567/register/announcements', newAnnouncement)
       .then(response => {
         alert('Cadastro concluído!');
       })
@@ -135,38 +137,38 @@ const AnnouncementRegisterScreen = ({ navigation }) => {
       >
         <Container>
           <InfoSection>
-            <Title>Cadastro de Ingresso</Title>
+            <Title>Anuncie seu ingresso!</Title>
             <Subtitle>Preencha os campos para cadastrar um novo ingresso.</Subtitle>
             <InputContainer>
               <InputTitle>Título</InputTitle>
               <Input
-                placeholder="Título"
-                onChangeText={(text) => setTicketData({ ...ticketData, title: text })}
-                value={ticketData.title}
-              />
-            </InputContainer>
-            <InputContainer>
-              <InputTitle>Descrição</InputTitle>
-              <Input
-                placeholder="Descrição"
-                onChangeText={(text) => setTicketData({ ...ticketData, description: text })}
-                value={ticketData.description}
-              />
-            </InputContainer>
-            <InputContainer>
-              <InputTitle>Status</InputTitle>
-              <Input
-                placeholder="Status"
-                onChangeText={(text) => setTicketData({ ...ticketData, status: text })}
-                value={ticketData.status}
+                placeholder="Descreva seu ingresso"
+                onChangeText={(text) => setAnnouncementData({ ...announcementData, title: text })}
+                value={announcementData.title}
               />
             </InputContainer>
             <InputContainer>
               <InputTitle>Preço</InputTitle>
               <Input
-                placeholder="Preço"
-                onChangeText={(text) => setTicketData({ ...ticketData, price: text })}
-                value={ticketData.price}
+                placeholder="Dê seu preço"
+                onChangeText={(float) => setAnnouncementData({ ...announcementData, price: float })}
+                value={announcementData.price}
+              />
+            </InputContainer>
+            <InputContainer>
+              <InputTitle>Tipo de Ingresso</InputTitle>
+              <Input
+                placeholder="É vip ou pista?"
+                onChangeText={(text) => setAnnouncementData({ ...announcementData, type: text })}
+                value={announcementData.type}
+              />
+            </InputContainer>
+            <InputContainer>
+              <InputTitle>Quantidade</InputTitle>
+              <Input
+                placeholder="Tem quantos?"
+                onChangeText={(number) => setAnnouncementData({ ...announcementData, quantity: number })}
+                value={announcementData.quantity}
               />
             </InputContainer>
             <RegisterButton onPress={handleRegister}>

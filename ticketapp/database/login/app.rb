@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'mongo'
 require 'json'
+require 'bcrypt'
 
 # Configurar a conexão com o servidor MongoDB
 client = Mongo::Client.new('mongodb+srv://admin:adminadmin@cluster0.lcxcczi.mongodb.net/tex')
@@ -25,14 +26,25 @@ post '/login' do
   email = data['email']
   password = data['password']
 
+      # Exemplo de depuração simples no seu código de login
+  puts "Email recebido: #{email}" 
+  puts "Senha recebida: #{password}"
   # Verificar se o usuário com o email fornecido existe no banco de dados
   user = users_collection.find(email: email).first
 
-  if user && user['password'] == password
-    # Autenticação bem-sucedida
-    session[:user_id] = user['_id']
-    status 200
-    { message: "Login bem-sucedido" }.to_json
+  if user
+    # Exemplo de depuração para verificar a senha criptografada no banco de dados
+    puts "Senha armazenada no banco: #{user['password']}"
+
+    if BCrypt::Password.new(user['password']) == password
+      # Autenticação bem-sucedida
+      session[:user_id] = user['_id']
+      status 200
+      { message: "Login bem-sucedido" }.to_json
+    else
+      status 401 # Unauthorized
+      { message: "Credenciais inválidas" }.to_json
+    end
   else
     status 401 # Unauthorized
     { message: "Credenciais inválidas" }.to_json

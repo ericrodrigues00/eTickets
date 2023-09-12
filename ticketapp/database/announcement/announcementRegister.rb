@@ -16,7 +16,7 @@ before do
 end
 
 set :bind, '0.0.0.0'
-set :port, 4567
+set :port, 4569
 
 # Rota para buscar os dados dos anúncios em formato JSON
 get '/announcements' do
@@ -56,6 +56,8 @@ post '/register/announcements' do
     { message: "Erro ao registrar anúncio" }.to_json
   end
 end
+
+
 
 # Fechar a conexão com o cliente após as operações
 at_exit do

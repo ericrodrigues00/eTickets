@@ -22,11 +22,11 @@ const App = () => {
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="GetStartedScreen" component={GetStartedScreen} />
         <Stack.Screen name="UserRegisterScreen" component={UserRegisterScreen} />
-        {/*<Stack.Screen name="AnnouncementRegisterScreen" component={AnnouncementRegisterScreen} />
+        <Stack.Screen name="AnnouncementRegisterScreen" component={AnnouncementRegisterScreen} />
         <Stack.Screen
           name="AnnouncementsScreen"
           component={AnnouncementsScreen}
-/>*/}
+/>
         <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>

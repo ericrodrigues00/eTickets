@@ -15,7 +15,9 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import LoginScreen from './LoginScreen';
+import { hashPassword } from '../services/Util';
 import axios from 'axios';
+//import bcrypt from 'bcryptjs';
 
 
 const Container = styled.View`
@@ -161,9 +163,10 @@ const UserRegisterScreen = () => {
     confirmPassword: '',
   });
 
+  //const [selectedImage, setSelectedImage] = useState(null);
   const [emailError, setEmailError] = useState(false);
   const [cpfError, setCPFError] = useState(false);
-
+  
   const handleRegister = async () => {
     const { name, email, cpf, password, confirmPassword } = formData;
 
@@ -192,12 +195,15 @@ const UserRegisterScreen = () => {
     }
 
     try {
-      const hashedPassword = await bcrypt.hash(password, 10); // Certifique-se de importar o 'bcrypt' aqui
+      //const hashedPassword = await hashPassword(password);
+
       const registerData = {
-        nome: formData.name,
+        name: formData.name,
         email: formData.email,
         cpf: formData.cpf,
-        password: formData.password,
+        password: password,
+        confirmPassword: formData.confirmPassword,
+        //image: selectedImage, 
       };
 
       axios.post('http://192.168.0.103:4567/users', registerData) // Substitua pela URL correta

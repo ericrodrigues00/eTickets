@@ -14,6 +14,9 @@ import {
 import styled from 'styled-components/native';
 import UserRegisterScreen from './UserRegisterScreen'
 import GetStartedScreen from './GetStartedScreen';
+import { hashPassword } from '../services/Util';
+
+//import bcrypt from 'bcryptjs';
 
 // Estilos dos componentes
 const Container = styled.View`
@@ -124,6 +127,7 @@ const LoginScreen = () => {
 
   const [userData, setUserData] = useState(null);
 
+  
   async function handleLogin() {
     const { email, password } = formData;
     
@@ -131,21 +135,17 @@ const LoginScreen = () => {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
     }
-  
-    /*if (!isEmailValid(email)) {
-      setEmailError(true);
-      return;
-    } else {
-      setEmailError(false);
-    }*/
-  
+    
+    
     try {
+  //    const hashedPassword = await hashPassword(password);
+
       const response = await fetch('http://192.168.0.103:4567/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }), // Enviar os dados do formulário
+        body: JSON.stringify({ email, password: password }), // Enviar os dados do formulário
       });
   
       const data = await response.json();
